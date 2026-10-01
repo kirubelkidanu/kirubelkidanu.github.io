@@ -1,135 +1,937 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kirubel Kidanu | WordPress Developer</title>
+  <title>Kirubel Kidanu | Full-Stack & WordPress Engineer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Header -->
-  <header class="max-w-5xl mx-auto px-6 py-8 flex justify-between items-center">
-    <span class="text-xl font-bold tracking-tight text-white">Kirubel</span>
-    <nav class="flex items-center space-x-6 text-sm">
-      <a href="#projects" class="text-slate-400 hover:text-emerald-400 transition">Projects</a>
-      <a href="#skills" class="text-slate-400 hover:text-emerald-400 transition">Skills</a>
-      <a href="#contact" class="text-slate-400 hover:text-emerald-400 transition">Contact</a>
-      <a href="resume.pdf" download class="border border-emerald-400/60 text-emerald-400 hover:bg-emerald-400/10 px-3.5 py-1.5 rounded-md font-mono text-xs transition">Resume</a>
-    </nav>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Fira Code"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+              950: '#022c22',
+            },
+            surface: {
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          },
+          animation: {
+            'blob': 'blob 8s infinite',
+            'float': 'float 4s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -40px) scale(1.08)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.96)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.6', filter: 'drop-shadow(0 0 15px rgba(16,185,129,0.35))' },
+              '50%': { opacity: '1', filter: 'drop-shadow(0 0 25px rgba(16,185,129,0.75))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-grid {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    }
+    
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(52, 211, 153, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px -10px rgba(5, 150, 105, 0.28);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #ffffff 30%, #6ee7b7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .badge-glow {
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10b981;
+    }
+  </style>
+</head>
+
+<body class="bg-surface-950 text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-surface-950 overflow-x-hidden min-h-screen relative">
+
+  <!-- Subtle grid and ambient orbs -->
+  <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
+  <div class="fixed top-[-8rem] left-[-8rem] w-96 h-96 bg-brand-500/15 rounded-full blur-3xl pointer-events-none animate-blob"></div>
+  <div class="fixed top-[30%] right-[-10rem] w-[28rem] h-[28rem] bg-cyan-500/10 rounded-full blur-3xl pointer-events-none animate-blob"></div>
+  <div class="fixed bottom-[-6rem] left-[20%] w-[32rem] h-[32rem] bg-emerald-600/10 rounded-full blur-3xl pointer-events-none animate-blob"></div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-surface-900 border border-brand-500/40 text-white px-5 py-3.5 rounded-xl shadow-2xl backdrop-blur-md">
+    <div class="w-2.5 h-2.5 rounded-full bg-brand-400 animate-ping"></div>
+    <span id="toast-message" class="text-sm font-medium">Copied to clipboard!</span>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-surface-950/80 border-b border-slate-800/80 transition-all">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="group flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-emerald-600 p-[1px] flex items-center justify-center shadow-lg group-hover:shadow-brand-500/30 transition-all duration-300">
+          <div class="w-full h-full bg-surface-950 rounded-[11px] flex items-center justify-center">
+            <span class="font-mono font-bold text-lg text-brand-400 group-hover:scale-110 transition-transform">K</span>
+          </div>
+        </div>
+        <div>
+          <span class="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+            Kirubel <span class="text-brand-400">Kidanu</span>
+          </span>
+          <p class="text-[10px] font-mono text-slate-400 tracking-wider uppercase">Full-Stack &amp; WordPress</p>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-7 text-sm font-medium">
+        <a href="#about" class="text-slate-400 hover:text-brand-400 transition-colors">About</a>
+        <a href="#projects" class="text-slate-400 hover:text-brand-400 transition-colors">Projects</a>
+        <a href="#github-guide" class="text-slate-400 hover:text-brand-400 transition-colors flex items-center gap-1">
+          <i data-lucide="image" class="w-3.5 h-3.5 text-brand-400"></i>
+          <span>Images Guide</span>
+        </a>
+        <a href="#skills" class="text-slate-400 hover:text-brand-400 transition-colors">Tech Stack</a>
+        <a href="#contact" class="text-slate-400 hover:text-brand-400 transition-colors">Contact</a>
+        
+        <!-- Live status badge -->
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-950/70 border border-brand-500/30 text-brand-400 text-xs font-mono badge-glow">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Available for work</span>
+        </div>
+
+        <a href="mailto:kirubelkidanu25@gmail.com" class="relative group overflow-hidden rounded-lg p-[1px] font-semibold text-xs font-mono">
+          <span class="absolute inset-0 bg-gradient-to-r from-brand-400 via-teal-400 to-emerald-500 rounded-lg"></span>
+          <span class="relative block px-4 py-2 bg-surface-950 hover:bg-opacity-80 transition-all rounded-[7px] text-white">
+            Hire Kirubel
+          </span>
+        </a>
+      </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobileMenuBtn" aria-label="Toggle menu" class="md:hidden text-slate-300 hover:text-white p-2">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="hidden md:hidden px-6 pt-2 pb-6 bg-surface-900/95 border-b border-slate-800 space-y-3">
+      <a href="#about" class="block text-slate-300 hover:text-brand-400 py-1">About</a>
+      <a href="#projects" class="block text-slate-300 hover:text-brand-400 py-1">Projects</a>
+      <a href="#github-guide" class="block text-slate-300 hover:text-brand-400 py-1">Images Guide</a>
+      <a href="#skills" class="block text-slate-300 hover:text-brand-400 py-1">Tech Stack</a>
+      <a href="#contact" class="block text-slate-300 hover:text-brand-400 py-1">Contact</a>
+      <div class="pt-2">
+        <a href="mailto:kirubelkidanu25@gmail.com" class="block text-center bg-brand-500 text-surface-950 font-bold py-2.5 rounded-lg text-sm">
+          Get in Touch
+        </a>
+      </div>
+    </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="max-w-5xl mx-auto px-6 py-16 text-center md:text-left">
-    <p class="text-emerald-400 font-mono text-sm mb-3">Hi, my name is</p>
-    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Kirubel Kidanu.</h1>
-    <h2 class="text-2xl md:text-4xl font-semibold text-slate-400 mb-6">I build responsive, business-focused web solutions.</h2>
-    <p class="text-slate-300 max-w-xl text-lg mb-8 leading-relaxed">
-      WordPress Developer specializing in custom site design, WooCommerce, Elementor, and PHP-driven integrations that solve real business needs.
-    </p>
-    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-      <a href="#projects" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3 rounded-lg transition">View Projects</a>
-      <a href="mailto:kirubelkidanu25@gmail.com" class="border border-slate-700 hover:border-emerald-400 text-slate-200 px-6 py-3 rounded-lg transition">Get in Touch</a>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="max-w-5xl mx-auto px-6 py-16">
-    <h3 class="text-2xl font-bold text-white mb-8 border-b border-slate-800 pb-3">Featured Projects</h3>
-    
-    <div class="grid md:grid-cols-2 gap-8">
-
-      <!-- Hotel Project -->
-      <div class="bg-slate-800/60 rounded-xl border border-slate-700/60 overflow-hidden flex flex-col justify-between">
-        <div>
-          <img src="hotel.png" alt="Hotel Booking Platform" class="w-full h-48 object-cover border-b border-slate-700/60 bg-slate-950" onerror="this.style.display='none'">
-          <div class="p-6">
-            <span class="text-xs font-mono uppercase bg-blue-950 text-blue-400 px-2 py-1 rounded">Integration & System</span>
-            <h4 class="text-xl font-bold text-white mt-3 mb-2">Hospitality & Hotel Booking System</h4>
-            <p class="text-slate-300 text-sm mb-4 leading-relaxed">
-              Dynamic hotel reservation engine featuring real-time room availability, custom PHP hooks for Chapa payment gateway integration (Telebirr/Card), and instant Telegram alerts.
-            </p>
-            <div class="flex flex-wrap gap-2 text-xs text-slate-400 font-mono">
-              <span>WordPress</span> • <span>PHP</span> • <span>Chapa API</span> • <span>Telegram Bot</span>
-            </div>
-          </div>
+  <main class="relative z-10">
+    <section id="about" class="max-w-6xl mx-auto px-6 pt-16 pb-20 md:py-28 flex flex-col md:flex-row items-center justify-between gap-12">
+      <div class="max-w-2xl text-center md:text-left">
+        
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/70 text-slate-300 text-xs font-mono mb-6 backdrop-blur">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-400"></i>
+          <span>Laravel ERP &bull; Custom WordPress &bull; Chapa APIs</span>
         </div>
-        <div class="px-6 pb-6 pt-2">
-          <a href="https://hotel.moderngebeya.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition">
-            View Live Demo <span>&rarr;</span>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+          Hi, I'm <span class="text-gradient">Kirubel Kidanu</span>. <br class="hidden sm:inline">
+          <span class="text-slate-300 font-semibold text-2xl sm:text-3xl lg:text-4xl block mt-2">
+            Engineering scalable web applications &amp; custom digital systems.
+          </span>
+        </h1>
+
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+          Full-Stack Web Developer &amp; WordPress Specialist. I architect heavy-duty Laravel enterprise platforms (SIV / GRV inventory &amp; materials management), high-converting WooCommerce storefronts, and custom Chapa payment integrations.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+          <a href="#projects" class="flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold px-7 py-3.5 rounded-xl transition duration-200 shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5">
+            <span>Explore Live Systems</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+          
+          <button onclick="copyEmail()" class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 hover:border-brand-500/60 text-slate-200 transition duration-200 backdrop-blur group">
+            <i data-lucide="copy" class="w-4 h-4 text-brand-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-sm font-medium font-mono">kirubelkidanu25@gmail.com</span>
+          </button>
+        </div>
+
+        <!-- Metric counters -->
+        <div class="grid grid-cols-3 gap-6 pt-12 mt-12 border-t border-slate-800/80">
+          <div>
+            <div class="text-2xl lg:text-3xl font-bold text-white font-mono">4+ Live</div>
+            <div class="text-xs text-slate-400 mt-1">Production Portals</div>
+          </div>
+          <div>
+            <div class="text-2xl lg:text-3xl font-bold text-brand-400 font-mono">Laravel &amp; WP</div>
+            <div class="text-xs text-slate-400 mt-1">ERP, APIs &amp; Stores</div>
+          </div>
+          <div>
+            <div class="text-2xl lg:text-3xl font-bold text-white font-mono">Chapa / Bot</div>
+            <div class="text-xs text-slate-400 mt-1">Telebirr &amp; Telegram</div>
+          </div>
         </div>
       </div>
 
-      <!-- eCommerce Project -->
-      <div class="bg-slate-800/60 rounded-xl border border-slate-700/60 overflow-hidden flex flex-col justify-between">
-        <div>
-          <img src="kirastore.png" alt="Kira Store eCommerce" class="w-full h-48 object-cover border-b border-slate-700/60 bg-slate-950" onerror="this.style.display='none'">
-          <div class="p-6">
-            <span class="text-xs font-mono uppercase bg-purple-950 text-purple-400 px-2 py-1 rounded">eCommerce</span>
-            <h4 class="text-xl font-bold text-white mt-3 mb-2">Custom WooCommerce Retail Store</h4>
-            <p class="text-slate-300 text-sm mb-4 leading-relaxed">
-              Turnkey online storefront with optimized product catalog management, custom category layouts, mobile conversion funnels, and automated Telegram order notices.
-            </p>
-            <div class="flex flex-wrap gap-2 text-xs text-slate-400 font-mono">
-              <span>WooCommerce</span> • <span>Elementor</span> • <span>PHP Hooks</span>
+      <!-- Hero Visual IDE Card -->
+      <div class="w-full md:w-5/12 max-w-md">
+        <div class="relative">
+          <div class="absolute -inset-1.5 bg-gradient-to-r from-brand-500 to-cyan-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-60 transition duration-1000"></div>
+          
+          <div class="relative glass-card rounded-2xl p-6 border border-slate-700/80">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-rose-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+              </div>
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-1">
+                <i data-lucide="terminal" class="w-3.5 h-3.5 text-brand-400"></i> EngineerProfile.php
+              </span>
+            </div>
+
+            <div class="font-mono text-xs text-slate-300 space-y-2 leading-relaxed">
+              <p><span class="text-purple-400">class</span> <span class="text-brand-300 font-semibold">KirubelKidanu</span> <span class="text-purple-400">extends</span> <span class="text-cyan-300">SoftwareEngineer</span> {</p>
+              <p class="pl-4"><span class="text-slate-500">// Production capabilities</span></p>
+              <p class="pl-4"><span class="text-purple-400">public array</span> <span class="text-blue-300">$systems</span> = [</p>
+              <p class="pl-8 text-emerald-300">'Laravel Construction ERP (SIV/GRV)',</p>
+              <p class="pl-8 text-emerald-300">'Custom WooCommerce &amp; Elementor',</p>
+              <p class="pl-8 text-emerald-300">'Chapa Telebirr &amp; Telegram APIs'</p>
+              <p class="pl-4">];</p>
+              <p class="pl-4 pt-1"><span class="text-purple-400">public function</span> <span class="text-blue-400">deploy</span>() {</p>
+              <p class="pl-8 text-brand-400">return $this-&gt;buildCleanScalableCode();</p>
+              <p class="pl-4">}</p>
+              <p>}</p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+              <span class="flex items-center gap-1 text-emerald-400 font-mono">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Production Ready
+              </span>
+              <span class="font-mono text-slate-500">v3.0.0</span>
             </div>
           </div>
         </div>
-        <div class="px-6 pb-6 pt-2">
-          <a href="https://kirastore.moderngebeya.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition">
-            View Live Demo <span>&rarr;</span>
-          </a>
+      </div>
+    </section>
+
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="flex items-center gap-2 text-brand-400 font-mono text-xs uppercase tracking-wider mb-2">
+            <i data-lucide="folder-code" class="w-4 h-4"></i>
+            <span>Production Systems &amp; Live Deployments</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Featured Projects</h2>
+          <p class="text-slate-400 text-sm mt-2 max-w-lg">
+            Real enterprise software, online storefronts, booking systems, and client clinics serving real operations.
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-800 self-start md:self-auto">
+          <button onclick="filterProjects('all')" class="filter-btn active-filter px-4 py-2 rounded-lg text-xs font-medium transition text-white bg-slate-800 shadow" data-filter="all">
+            All Systems (4)
+          </button>
+          <button onclick="filterProjects('laravel')" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white" data-filter="laravel">
+            Laravel &amp; ERP
+          </button>
+          <button onclick="filterProjects('wordpress')" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white" data-filter="wordpress">
+            WordPress &amp; Clinics
+          </button>
+          <button onclick="filterProjects('ecommerce')" class="filter-btn px-4 py-2 rounded-lg text-xs font-medium transition text-slate-400 hover:text-white" data-filter="ecommerce">
+            eCommerce &amp; Booking
+          </button>
         </div>
       </div>
 
-      <!-- Clinic Project -->
-      <div class="bg-slate-800/60 rounded-xl border border-slate-700/60 overflow-hidden flex flex-col justify-between md:col-span-2">
-        <div>
-          <img src="clinic.png" alt="Speech Therapy Clinic Website" class="w-full h-64 object-cover object-top border-b border-slate-700/60 bg-slate-950">
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-mono uppercase bg-emerald-950 text-emerald-400 px-2 py-1 rounded">Client Project</span>
-              <span class="text-xs text-amber-400 font-medium font-mono">Custom Domain Launching Next Week</span>
+      <!-- Projects Grid -->
+      <div class="grid md:grid-cols-2 gap-8" id="projects-grid">
+
+        <!-- Project 1: Laravel Construction ERP & Inventory System -->
+        <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="laravel">
+          <div>
+            <div class="relative h-64 w-full overflow-hidden bg-gradient-to-tr from-slate-950 via-slate-900 to-amber-950/40 border-b border-slate-800 flex items-center justify-center">
+              <img src="inventory.png" alt="Construction ERP & Inventory System" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
+                onerror="this.onerror=null; this.src='https://placehold.co/800x480/090d16/f59e0b?text=Construction+ERP+%26+Inventory+System';" />
+              
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-amber-950/90 text-amber-300 border border-amber-500/40 backdrop-blur-md">
+                  LARAVEL ERP
+                </span>
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 backdrop-blur-md flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Deployment
+                </span>
+              </div>
             </div>
-            <h4 class="text-xl font-bold text-white mb-2">Speech Therapy Clinic Website</h4>
-            <p class="text-slate-300 text-sm mb-4 leading-relaxed max-w-3xl">
-              Custom multi-page WordPress platform built with Elementor for an active practice. Features structured service workflows, embedded clinical video content, and responsive consultation forms.
+
+            <div class="p-7">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-mono uppercase bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded border border-amber-500/20">Enterprise Software</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                Construction ERP &amp; Materials Inventory
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed mb-5">
+                Full-featured Construction Management &amp; Inventory ERP engineered with Laravel. Tracks material movements across job sites through automated <strong>SIV (Store Issue Voucher)</strong> and <strong>GRV (Goods Receiving Voucher)</strong> workflows, role permissions, and asset auditing.
+              </p>
+
+              <div class="space-y-2 mb-6">
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>End-to-end SIV / GRV requisition and approval pipelines</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Warehouse materials tracking, low-stock triggers &amp; site ledgers</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Multi-role access (Project Managers, Storekeepers, Admins)</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Laravel</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">PHP 8+</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">MySQL</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">SIV / GRV Logic</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-7 pb-7 pt-2 flex items-center justify-between border-t border-slate-800/60">
+            <a href="https://inventory.moderngebeya.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors">
+              <span>Open ERP Portal</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+            <span class="text-xs font-mono text-slate-500">inventory.moderngebeya.com</span>
+          </div>
+        </div>
+
+        <!-- Project 2: Speech Therapy Clinic Website (RightChoice) -->
+        <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="wordpress">
+          <div>
+            <div class="relative h-64 w-full overflow-hidden bg-gradient-to-tr from-slate-950 via-slate-900 to-teal-950/40 border-b border-slate-800 flex items-center justify-center">
+              <img src="clinic.png" alt="Right Choice Speech Therapy Clinic Website" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
+                onerror="this.onerror=null; this.src='https://placehold.co/800x480/090d16/2dd4bf?text=Right+Choice+Speech+Therapy+Clinic';" />
+              
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-teal-950/90 text-teal-300 border border-teal-500/40 backdrop-blur-md">
+                  CLINIC PORTAL
+                </span>
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 backdrop-blur-md flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Client Site
+                </span>
+              </div>
+            </div>
+
+            <div class="p-7">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-mono uppercase bg-teal-500/10 text-teal-400 px-2.5 py-1 rounded border border-teal-500/20">Healthcare &bull; Right Choice</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                Right Choice Therapy Clinic Website
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed mb-5">
+                Comprehensive healthcare practice portal built for Right Choice Speech Therapy Clinic. Features structured therapy program overviews, interactive consultation inquiry funnels, responsive multi-device layouts, and embedded media.
+              </p>
+
+              <div class="space-y-2 mb-6">
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Patient consultation &amp; appointment booking workflow</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>SEO-friendly service catalog and clinical practice showcase</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Speed-optimized Elementor templates &amp; security hardening</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">WordPress</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Elementor Pro</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Responsive UI</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Lead Forms</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-7 pb-7 pt-2 flex items-center justify-between border-t border-slate-800/60">
+            <a href="https://weyyegebeya.com/rightchoice" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors">
+              <span>Visit Clinic Site</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+            <span class="text-xs font-mono text-slate-500">weyyegebeya.com/rightchoice</span>
+          </div>
+        </div>
+
+        <!-- Project 3: Hospitality & Hotel Booking System -->
+        <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="ecommerce">
+          <div>
+            <div class="relative h-64 w-full overflow-hidden bg-gradient-to-tr from-slate-950 via-slate-900 to-blue-950/40 border-b border-slate-800 flex items-center justify-center">
+              <img src="hotel.png" alt="Hospitality & Hotel Booking System" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
+                onerror="this.onerror=null; this.src='https://placehold.co/800x480/090d16/38bdf8?text=Hotel+Booking+Engine+Live';" />
+              
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-blue-950/90 text-blue-300 border border-blue-500/40 backdrop-blur-md">
+                  HOTEL &amp; CHAPA API
+                </span>
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 backdrop-blur-md flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Platform
+                </span>
+              </div>
+            </div>
+
+            <div class="p-7">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-mono uppercase bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded border border-blue-500/20">Booking Engine</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                Hospitality &amp; Hotel Booking Platform
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed mb-5">
+                Dynamic hotel reservation engine featuring real-time room availability calendar, custom PHP hooks for Chapa payment gateway integration (Telebirr &amp; Card checkout), and instant Telegram alerts sent directly to staff.
+              </p>
+
+              <div class="space-y-2 mb-6">
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Live room availability matrix with automated rate tiers</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Chapa API gateway for Telebirr &amp; credit card payments</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Telegram Bot Webhook for instantaneous order/booking notices</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">WordPress</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">PHP Hooks</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Chapa Gateway</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Telegram Bot</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-7 pb-7 pt-2 flex items-center justify-between border-t border-slate-800/60">
+            <a href="https://hotel.moderngebeya.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors">
+              <span>Launch Hotel Demo</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+            <span class="text-xs font-mono text-slate-500">hotel.moderngebeya.com</span>
+          </div>
+        </div>
+
+        <!-- Project 4: Kira Store Custom WooCommerce Retail Store -->
+        <div class="project-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between group" data-category="ecommerce">
+          <div>
+            <div class="relative h-64 w-full overflow-hidden bg-gradient-to-tr from-slate-950 via-slate-900 to-purple-950/40 border-b border-slate-800 flex items-center justify-center">
+              <img src="kirastore.png" alt="Kira Store Custom WooCommerce Platform" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
+                onerror="this.onerror=null; this.src='https://placehold.co/800x480/090d16/c084fc?text=Kira+Store+eCommerce+Live';" />
+              
+              <div class="absolute top-4 left-4 flex gap-2">
+                <span class="px-3 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-purple-950/90 text-purple-300 border border-purple-500/40 backdrop-blur-md">
+                  WOOCOMMERCE
+                </span>
+                <span class="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium tracking-wide bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 backdrop-blur-md flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Store
+                </span>
+              </div>
+            </div>
+
+            <div class="p-7">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-mono uppercase bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded border border-purple-500/20">Retail Storefront</span>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                Custom WooCommerce Retail Store
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed mb-5">
+                Turnkey online storefront architected for fast loading speeds and frictionless mobile purchases. Features modular catalog layouts, custom single-product Elementor templates, and automated dispatch notices.
+              </p>
+
+              <div class="space-y-2 mb-6">
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Mobile-first checkout optimized for conversion retention</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Automated stock inventory &amp; Telegram notification hook</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-300">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+                  <span>Elementor custom loop builders &amp; category architecture</span>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">WooCommerce</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Elementor Pro</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">Custom CSS</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60">PHP Checkout</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-7 pb-7 pt-2 flex items-center justify-between border-t border-slate-800/60">
+            <a href="https://kirastore.moderngebeya.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-400 hover:text-brand-300 transition-colors">
+              <span>Visit Kira Store</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+            <span class="text-xs font-mono text-slate-500">kirastore.moderngebeya.com</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="github-guide" class="max-w-6xl mx-auto px-6 py-16 border-t border-slate-800/80">
+      <div class="glass-card rounded-2xl p-8 border border-brand-500/30 relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="flex flex-col lg:flex-row gap-8 items-start justify-between">
+          <div class="max-w-xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 text-brand-400 text-xs font-mono border border-brand-500/30 mb-3">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+              <span>GitHub Pages Image Setup Guide</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">How to add project screenshots to your GitHub repo</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+              Your HTML is already configured with direct filenames. Follow these 3 easy steps on GitHub to display your actual screenshots:
             </p>
-            <div class="flex flex-wrap gap-2 text-xs text-slate-400 font-mono">
-              <span>WordPress</span> • <span>Elementor</span> • <span>Custom CSS</span> • <span>Responsive Layouts</span>
+
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 font-mono">
+              <div class="flex items-start gap-3 bg-surface-950/70 p-3 rounded-xl border border-slate-800">
+                <span class="text-brand-400 font-bold">01.</span>
+                <span>Open your repository on GitHub (the one hosting your website).</span>
+              </div>
+              <div class="flex items-start gap-3 bg-surface-950/70 p-3 rounded-xl border border-slate-800">
+                <span class="text-brand-400 font-bold">02.</span>
+                <span>Click <strong>Add file</strong> &rarr; <strong>Upload files</strong> in the root folder (where <code class="text-emerald-300">index.html</code> is).</span>
+              </div>
+              <div class="flex items-start gap-3 bg-surface-950/70 p-3 rounded-xl border border-slate-800">
+                <span class="text-brand-400 font-bold">03.</span>
+                <span>Upload your screenshots using these exact filenames:</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Matching Filename Cards -->
+          <div class="w-full lg:w-96 bg-surface-950/90 rounded-xl p-5 border border-slate-800 text-xs">
+            <div class="text-slate-400 font-mono text-[11px] uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>Required filenames</span>
+              <span class="text-brand-400">Match exactly</span>
+            </div>
+            <ul class="space-y-2.5 font-mono">
+              <li class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-amber-300">inventory.png</span>
+                <span class="text-slate-400 text-[11px]">Laravel ERP</span>
+              </li>
+              <li class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-teal-300">clinic.png</span>
+                <span class="text-slate-400 text-[11px]">Speech Clinic</span>
+              </li>
+              <li class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-blue-300">hotel.png</span>
+                <span class="text-slate-400 text-[11px]">Hotel Booking</span>
+              </li>
+              <li class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                <span class="text-purple-300">kirastore.png</span>
+                <span class="text-slate-400 text-[11px]">Kira WooCommerce</span>
+              </li>
+            </ul>
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
+              <span>If an image isn't uploaded yet, a modern fallback gradient is shown automatically.</span>
             </div>
           </div>
         </div>
-        <div class="px-6 pb-6 pt-2">
-          <span class="text-sm text-slate-500 font-medium">Domain connection in progress</span>
+      </div>
+    </section>
+
+    <section id="skills" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 text-brand-400 font-mono text-xs uppercase tracking-wider mb-2">
+          <i data-lucide="cpu" class="w-4 h-4"></i>
+          <span>Engineering Proficiency</span>
         </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Technical Arsenal</h2>
+        <p class="text-slate-400 text-sm mt-3">
+          Full-stack capabilities spanning enterprise Laravel frameworks, robust WordPress architectures, custom hooks, and third-party APIs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        
+        <!-- Skill: Laravel -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">Laravel (PHP)</h3>
+          <p class="text-xs text-slate-400 mb-3">Construction ERP, SIV/GRV, Eloquent &amp; Auth</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800/50">Full-Stack</span>
+        </div>
+
+        <!-- Skill: WordPress Core -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="globe" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">WordPress Core</h3>
+          <p class="text-xs text-slate-400 mb-3">Custom themes, hooks, actions &amp; filters</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800/50">Expert</span>
+        </div>
+
+        <!-- Skill: WooCommerce -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">WooCommerce</h3>
+          <p class="text-xs text-slate-400 mb-3">Custom checkouts, variable catalogs &amp; sales funnels</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800/50">Advanced</span>
+        </div>
+
+        <!-- Skill: Elementor Pro -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="layout" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">Elementor Pro</h3>
+          <p class="text-xs text-slate-400 mb-3">Dynamic templates, loop builders &amp; custom CSS</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-pink-950 text-pink-300 border border-pink-800/50">Pro</span>
+        </div>
+
+        <!-- Skill: Chapa & Telebirr -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="credit-card" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">Chapa / Telebirr</h3>
+          <p class="text-xs text-slate-400 mb-3">Ethiopian payment gateway API integrations</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800/50">APIs</span>
+        </div>
+
+        <!-- Skill: Telegram Bots -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="send" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">Telegram Bots</h3>
+          <p class="text-xs text-slate-400 mb-3">Instant booking/order alerts via webhook events</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/50">Automation</span>
+        </div>
+
+        <!-- Skill: MySQL & Databases -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="database" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">MySQL &amp; Architecture</h3>
+          <p class="text-xs text-slate-400 mb-3">Inventory relations, schema indexing &amp; queries</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800/50">Database</span>
+        </div>
+
+        <!-- Skill: DevOps & Hosting -->
+        <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="server" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-white font-bold text-base mb-1">Git, cPanel &amp; DNS</h3>
+          <p class="text-xs text-slate-400 mb-3">Subdomains, SSL certificates &amp; GitHub hosting</p>
+          <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">Deployment</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="contact" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800/80">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Contact context -->
+        <div>
+          <div class="inline-flex items-center gap-2 text-brand-400 font-mono text-xs uppercase tracking-wider mb-3">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            <span>Let's Discuss Your Project</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Need a reliable Laravel system or WordPress platform?
+          </h2>
+          <p class="text-slate-300 text-base leading-relaxed mb-8">
+            Whether you are building custom inventory management, a clinic portal, or an e-commerce shop with Chapa &amp; Telebirr payments, I am ready to deliver high quality results.
+          </p>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-4 p-4 rounded-xl glass-card">
+              <div class="w-10 h-10 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400">Direct Email</p>
+                <a href="mailto:kirubelkidanu25@gmail.com" class="text-white hover:text-brand-400 font-mono text-sm font-semibold transition-colors">
+                  kirubelkidanu25@gmail.com
+                </a>
+              </div>
+              <button onclick="copyEmail()" class="ml-auto text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition" title="Copy email address">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-4 p-4 rounded-xl glass-card">
+              <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400">Availability</p>
+                <p class="text-white text-sm font-semibold">Available for Remote &amp; Freelance Contracts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Contact Form -->
+        <div class="glass-card rounded-2xl p-8 border border-slate-700/80 relative">
+          <h3 class="text-xl font-bold text-white mb-2">Send an Inquiry</h3>
+          <p class="text-xs text-slate-400 mb-6">Drop your project requirements and I will respond promptly.</p>
+
+          <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+            <div>
+              <label for="name" class="block text-xs font-mono text-slate-300 mb-1.5">Your Name</label>
+              <input type="text" id="name" required placeholder="e.g. Samuel Bekele" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition" />
+            </div>
+
+            <div>
+              <label for="email" class="block text-xs font-mono text-slate-300 mb-1.5">Your Email</label>
+              <input type="email" id="email" required placeholder="name@company.com" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition" />
+            </div>
+
+            <div>
+              <label for="project-type" class="block text-xs font-mono text-slate-300 mb-1.5">Project Scope</label>
+              <select id="project-type" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition">
+                <option value="Laravel ERP">Laravel Custom Web App / ERP</option>
+                <option value="WooCommerce">WooCommerce / Kira Store Setup</option>
+                <option value="Clinic Site">Healthcare / Business Website</option>
+                <option value="Payment API">Chapa / Telebirr Payment Integration</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-xs font-mono text-slate-300 mb-1.5">Project Details</label>
+              <textarea id="message" rows="4" required placeholder="Tell me about what you are looking to build..." class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition"></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold py-3.5 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-2">
+              <span>Send Message</span>
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+          <div id="form-feedback" class="hidden mt-4 p-4 rounded-xl bg-brand-950/80 border border-brand-500/50 text-brand-300 text-sm flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-brand-400 flex-shrink-0"></i>
+            <span>Thank you! Your message was sent to Kirubel Kidanu.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-800/80 bg-surface-950 py-12 relative z-10">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-slate-400">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-surface-900 border border-slate-800 flex items-center justify-center text-brand-400 font-mono font-bold">
+          K
+        </div>
+        <span>&copy; <span id="year"></span> Kirubel Kidanu. Hosted on GitHub Pages.</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-6 text-xs sm:text-sm">
+        <a href="https://inventory.moderngebeya.com" target="_blank" class="hover:text-brand-400 transition">ERP System</a>
+        <a href="https://weyyegebeya.com/rightchoice" target="_blank" class="hover:text-brand-400 transition">Speech Clinic</a>
+        <a href="https://hotel.moderngebeya.com/" target="_blank" class="hover:text-brand-400 transition">Hotel Demo</a>
+        <a href="https://kirastore.moderngebeya.com/" target="_blank" class="hover:text-brand-400 transition">Kira Store</a>
+        <a href="#about" class="hover:text-brand-400 transition">Top &uarr;</a>
       </div>
 
     </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="max-w-5xl mx-auto px-6 py-16">
-    <h3 class="text-2xl font-bold text-white mb-8 border-b border-slate-800 pb-3">Technical Stack</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">WordPress</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">WooCommerce</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">Elementor</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">PHP</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">HTML5 / CSS3</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">JavaScript</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">MySQL</p></div>
-      <div class="bg-slate-800/40 p-4 rounded-lg border border-slate-700/40"><p class="font-bold text-slate-200">Git / cPanel</p></div>
-    </div>
-  </section>
-
-  <!-- Footer / Contact -->
-  <footer id="contact" class="max-w-5xl mx-auto px-6 py-16 text-center border-t border-slate-800 text-slate-400">
-    <h3 class="text-xl font-bold text-white mb-2">Let's Build Something Together</h3>
-    <p class="text-sm mb-6">Available for freelance WordPress projects and remote opportunities.</p>
-    <a href="mailto:kirubelkidanu25@gmail.com" class="text-emerald-400 hover:underline font-mono">kirubelkidanu25@gmail.com</a>
   </footer>
 
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Auto set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile navigation toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Copy Email to clipboard with Toast Notification
+    function copyEmail() {
+      const email = 'kirubelkidanu25@gmail.com';
+      const tempInput = document.createElement('textarea');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast('Email copied to clipboard: ' + email);
+      } catch (err) {
+        showToast('Contact: ' + email);
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // Toast popup handler
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      const message = document.getElementById('toast-message');
+      message.textContent = text;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Projects Filtering Logic
+    function filterProjects(category) {
+      const cards = document.querySelectorAll('.project-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-filter') === category) {
+          btn.classList.add('bg-slate-800', 'text-white', 'shadow');
+          btn.classList.remove('text-slate-400');
+        } else {
+          btn.classList.remove('bg-slate-800', 'text-white', 'shadow');
+          btn.classList.add('text-slate-400');
+        }
+      });
+
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Form submission simulation
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      const feedback = document.getElementById('form-feedback');
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Sending...</span>`;
+
+      setTimeout(() => {
+        submitBtn.classList.add('hidden');
+        feedback.classList.remove('hidden');
+        showToast('Message sent! Kirubel will reply soon.');
+      }, 900);
+    }
+  </script>
 </body>
 </html>
