@@ -73,6 +73,7 @@ export const projectsData = [
         caption: "Chronological movement auditing with signed quantities, running balances, and valuation data."
       }
     ],
+    liveUrl: null,
     liveLink: null,
     isInternal: true
   },
@@ -139,7 +140,8 @@ export const projectsData = [
         caption: "Founder video message, core values (Compassion, Integrity, Collaboration, Growth), and clinic team."
       }
     ],
-    liveLink: null,
+    liveUrl: "https://rightchoicespeechtherapy.com/",
+    liveLink: "https://rightchoicespeechtherapy.com/",
     isInternal: false
   },
   {
@@ -205,6 +207,7 @@ export const projectsData = [
         caption: "Clean single-page order form with Cash on Delivery and instant order summary."
       }
     ],
+    liveUrl: null,
     liveLink: null,
     isInternal: false
   },
@@ -271,7 +274,8 @@ export const projectsData = [
         caption: "Streamlined order form with Ethiopian shipping details and bank transfer / COD payment options."
       }
     ],
-    liveLink: null,
+    liveUrl: "https://kirastore.moderngebeya.com/",
+    liveLink: "https://kirastore.moderngebeya.com/",
     isInternal: false
   },
   {
@@ -337,6 +341,7 @@ export const projectsData = [
         caption: "Clean student records roster managing family IDs, birth dates, and active therapy statuses."
       }
     ],
+    liveUrl: null,
     liveLink: null,
     isInternal: true
   },
@@ -403,7 +408,8 @@ export const projectsData = [
         caption: "Step-by-step reservation workflow showing multi-room selections, amenity icons, and ETB pricing."
       }
     ],
-    liveLink: null,
+    liveUrl: "https://hotel.moderngebeya.com/",
+    liveLink: "https://hotel.moderngebeya.com/",
     isInternal: false
   }
 ];

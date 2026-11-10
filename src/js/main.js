@@ -326,6 +326,28 @@ function renderCaseStudy(p) {
     )
     .join('');
 
+  const liveButtonHtml = p.liveUrl
+    ? `
+    <div class="mt-6 flex flex-wrap items-center gap-4">
+      <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 inline-flex items-center gap-2">
+        <span>Visit Live Site</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+      <span class="text-xs font-mono text-slate-400 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Live Production Deployment
+      </span>
+    </div>`
+    : `
+    <div class="mt-6 flex items-center gap-2">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 text-xs font-mono text-slate-400 border border-slate-700/60">
+        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+        ${p.isInternal ? 'Internal Enterprise System' : 'Case Study & Architecture'}
+      </span>
+    </div>`;
+
   container.innerHTML = `
     <!-- Modal Header -->
     <div class="border-b border-slate-800/80 pb-6 mb-8">
@@ -341,6 +363,7 @@ function renderCaseStudy(p) {
         ${stackHtml}
       </div>
       <p class="text-base md:text-lg text-slate-300 leading-relaxed">${p.overview}</p>
+      ${liveButtonHtml}
     </div>
 
     <!-- Main Hero Screenshot Preview -->
